@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../models/upload_model.dart';
+import '../models/upload_provider.dart';
 import '../screens/login_screen.dart'; // Import your login screen
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +17,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Reference to the FirebaseAuth instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _textController = TextEditingController();
+  final List<String> _imageUrls = [];
+  final List<String> _pdfUrls = [];
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Home Screen'),
         actions: [
-          // Add a logout button to the app bar
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
-              // Sign out the user from Firebase
               await _auth.signOut();
-
-              // Navigate back to the login screen
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -37,8 +39,39 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Text('User UID: ${widget.userUid}'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _textController,
+              decoration: InputDecoration(labelText: 'Text'),
+            ),
+            // Add widgets for uploading images and PDFs
+            // ...
+
+            ElevatedButton(
+              onPressed: () async {
+                final activityProvider =
+                    Provider.of<ActivityProvider>(context, listen: false);
+
+                final newActivity = Activity(
+                  id: DateTime.now().toString(),
+                  text: _textController.text,
+                  imageUrls: _imageUrls,
+                  pdfUrls: _pdfUrls,
+                );
+
+                await activityProvider.uploadActivity(newActivity);
+
+                // Optionally, navigate to a different screen after upload
+                Navigator.pop(context);
+              },
+              child: Text('Upload'),
+            ),
+          ],
+        ),
       ),
     );
   }
