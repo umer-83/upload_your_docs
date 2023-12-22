@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879154468178",
+    "project_id": "uploadyourdocs-46380",
+    "storage_bucket": "uploadyourdocs-46380.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879154468178:android:48925a1e5ff43a57a3968b",
+        "android_client_info": {
+          "package_name": "com.example.upload_your_docs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSCVNleVFrSv4ARuF-ttD7lo2ilaGwfO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
