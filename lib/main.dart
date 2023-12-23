@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:upload_your_docs/widgets/routes.dart';
 import 'firebase_options.dart';
+import 'models/doc_view_provider.dart';
 import 'models/upload_provider.dart';
 
 void main() async {
@@ -12,8 +13,15 @@ void main() async {
   );
 
   runApp(
-    ChangeNotifierProvider<ActivityProvider>(
-      create: (context) => ActivityProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ActivityProvider>(
+          create: (context) => ActivityProvider(),
+        ),
+        ChangeNotifierProvider<DocumentProvider>(
+          create: (context) => DocumentProvider(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );

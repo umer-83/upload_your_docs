@@ -8,6 +8,7 @@ import '../models/pdf_upload.dart';
 import '../models/upload_model.dart';
 import '../models/upload_provider.dart';
 import '../screens/login_screen.dart';
+import 'doc_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String userUid;
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Screen'),
+        backgroundColor: const Color(0xFF1D2C60),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -56,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               controller: _textController,
               decoration: InputDecoration(labelText: 'Text'),
             ),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () async {
                 List<String> pickedImages =
@@ -87,35 +90,84 @@ class _HomeScreenState extends State<HomeScreen> {
                   for (String imageUrl in _imageUrls) Text(imageUrl),
                 ],
               ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 _selectedPdfUrls = await _pdfPickerService.pickPdfFiles();
                 setState(() {});
               },
-              child: Text('Pick PDFs'),
+              child: Text('Pick PDF'),
             ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 final activityProvider =
                     Provider.of<ActivityProvider>(context, listen: false);
 
-                List<String> uploadedPdfUrls =
-                    await _pdfUploaderService.uploadPdfs(_selectedPdfUrls);
-                List<String> uploadedImageUrls =
-                    await _imageUploaderService.uploadImages(_imageUrls);
-                final newActivity = Activity(
-                  id: DateTime.now().toString(),
-                  text: _textController.text,
-                  imageUrls: uploadedImageUrls,
-                  pdfUrls: uploadedPdfUrls,
+                // GlobalKey to reference the dialog
+                GlobalKey<State> key = GlobalKey<State>();
+
+                // Show loading indicator while uploading
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return WillPopScope(
+                      onWillPop: () async => false,
+                      child: SimpleDialog(
+                        key: key,
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 );
 
-                await activityProvider.uploadActivity(newActivity);
+                try {
+                  List<String> uploadedPdfUrls =
+                      await _pdfUploaderService.uploadPdfs(_selectedPdfUrls);
+                  List<String> uploadedImageUrls =
+                      await _imageUploaderService.uploadImages(_imageUrls);
+                  final newActivity = Activity(
+                    id: DateTime.now().toString(),
+                    text: _textController.text,
+                    imageUrls: uploadedImageUrls,
+                    pdfUrls: uploadedPdfUrls,
+                  );
 
-                // Optionally, navigate to a different screen after upload
-                Navigator.pop(context);
+                  await activityProvider.uploadActivity(newActivity);
+
+                  // Navigate to DocumentListScreen after successful upload
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DocumentListScreen(),
+                    ),
+                  );
+                } catch (error) {
+                  // Handle the error (show a snackbar, log, etc.)
+                  print('Error during upload: $error');
+                } finally {
+                  // Close the loading indicator
+                  Navigator.of(key.currentContext!).pop();
+                }
               },
               child: Text('Upload'),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DocumentListScreen(),
+                  ),
+                );
+              },
+              child: Text('View Uploaded Docs'),
             ),
           ],
         ),
