@@ -6,19 +6,21 @@ import 'doc_detail_screen.dart';
 import 'home_screen.dart';
 
 class DocumentListScreen extends StatelessWidget {
+  const DocumentListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Document List'),
+        title: const Text('Document List'),
         backgroundColor: const Color(0xFF1D2C60),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => HomeScreen(
+                  builder: (context) => const HomeScreen(
                         userUid: '',
                       )),
             );
@@ -30,9 +32,9 @@ class DocumentListScreen extends StatelessWidget {
             .getDocuments(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading documents'));
+            return const Center(child: Text('Error loading documents'));
           } else {
             List<Document> documents = snapshot.data ?? [];
             return ListView.builder(

@@ -19,8 +19,8 @@ class ImageUploaderService {
         String downloadUrl = await taskSnapshot.ref.getDownloadURL();
         downloadUrls.add(downloadUrl);
       } on FirebaseException catch (e) {
+        // ignore: avoid_print
         print('Image upload failed: $e');
-        // Handle error (show a snackbar, retry, etc.)
       }
     }
 

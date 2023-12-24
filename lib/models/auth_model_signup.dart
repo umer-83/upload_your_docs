@@ -16,6 +16,7 @@ class AuthServiceSignUp {
 
       return userCredential.user?.uid;
     } catch (e) {
+      // ignore: avoid_print
       print('Error signing up: $e');
       return Future.error(e.toString());
     }

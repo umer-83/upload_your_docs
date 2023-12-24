@@ -8,6 +8,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -58,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
 
                     if (userId != null) {
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -65,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     } else {
-                      // Show a snackbar for unsuccessful login
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text(
                               'Login failed. Please check your credentials.'),
                           duration: Duration(seconds: 3),
@@ -75,16 +77,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }
                   } catch (error) {
-                    // Show a snackbar with the error message
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Login failed: $error'),
-                        duration: Duration(seconds: 3),
+                        duration: const Duration(seconds: 3),
                       ),
                     );
                   }
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 10),
               Row(
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     },
-                    child: Text('Sign Up'),
+                    child: const Text('Sign Up'),
                   ),
                 ],
               ),

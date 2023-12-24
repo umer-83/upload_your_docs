@@ -17,6 +17,7 @@ class PdfUploaderService {
         String downloadUrl = await taskSnapshot.ref.getDownloadURL();
         pdfUrls.add(downloadUrl);
       } on FirebaseException catch (e) {
+        // ignore: avoid_print
         print('PDF upload failed: $e');
         // Handle error (show a snackbar, retry, etc.)
       }

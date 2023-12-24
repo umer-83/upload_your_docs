@@ -7,6 +7,7 @@ class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
@@ -57,20 +58,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     );
 
                     if (userId != null) {
-                      // Show a snackbar for successful signup
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Sign up successful. User ID: $userId'),
-                          duration: Duration(seconds: 3),
+                          duration: const Duration(seconds: 3),
                         ),
                       );
-
-                      // Navigate to the home screen with the user ID
+                      // ignore: use_build_context_synchronously
                       Navigator.pushNamed(context, '/home', arguments: userId);
                     } else {
-                      // Show a snackbar for unsuccessful signup
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Sign up failed. Please try again.'),
                           duration: Duration(seconds: 3),
                         ),
@@ -81,12 +81,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Sign up failed: $error'),
-                        duration: Duration(seconds: 3),
+                        duration: const Duration(seconds: 3),
                       ),
                     );
                   }
                 },
-                child: Text('Sign Up'),
+                child: const Text('Sign Up'),
               ),
               const SizedBox(height: 10),
               Row(
@@ -96,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
                 ],
               ),

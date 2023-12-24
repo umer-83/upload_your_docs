@@ -30,6 +30,7 @@ class DocumentProvider with ChangeNotifier {
 
       return documents;
     } catch (e) {
+      // ignore: avoid_print
       print('Error getting documents: $e');
       // Handle error (show a snackbar, retry, etc.)
       return [];

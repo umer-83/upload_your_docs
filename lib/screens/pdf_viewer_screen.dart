@@ -4,9 +4,10 @@ import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 class CustomPDFViewer extends StatefulWidget {
   final String pdfUrl;
 
-  CustomPDFViewer({Key? key, required this.pdfUrl}) : super(key: key);
+  const CustomPDFViewer({Key? key, required this.pdfUrl}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomPDFViewerState createState() => _CustomPDFViewerState();
 }
 
@@ -38,20 +39,20 @@ class _CustomPDFViewerState extends State<CustomPDFViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PDF Viewer'),
+        title: const Text('PDF Viewer'),
         backgroundColor: const Color(0xFF1D2C60),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : document != null
               ? PDFViewer(document: document!)
-              : Center(child: Text('Error loading PDF')),
+              : const Center(child: Text('Error loading PDF')),
     );
   }
 }

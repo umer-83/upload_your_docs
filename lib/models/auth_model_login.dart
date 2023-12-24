@@ -15,6 +15,7 @@ class AuthService {
 
       return userCredential.user?.uid;
     } catch (e) {
+      // ignore: avoid_print
       print('Error signing in: $e');
       return Future.error(e.toString());
     }

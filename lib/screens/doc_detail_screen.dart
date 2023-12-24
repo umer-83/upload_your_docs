@@ -12,10 +12,10 @@ class DocumentDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Document Detail'),
+        title: const Text('Document Detail'),
         backgroundColor: const Color(0xFF1D2C60),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -26,19 +26,19 @@ class DocumentDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Text:',
+            const Text('Text:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text(document.text, style: TextStyle(fontSize: 16)),
-            SizedBox(height: 20),
-            Text('Images:',
+            Text(document.text, style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 20),
+            const Text('Images:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             // Display images
             for (String imageUrl in document.imageUrls)
               Image.network(imageUrl, height: 100),
-            SizedBox(height: 20),
-            Text('PDFs:',
+            const SizedBox(height: 20),
+            const Text('PDFs:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            // Display PDFs (you can use a PDF viewer widget here)
+            // Display PDFs
             for (String pdfUrl in document.pdfUrls)
               TextButton(
                 onPressed: () {
@@ -49,7 +49,7 @@ class DocumentDetailScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('PDF Link'),
+                child: const Text('PDF Link'),
               ),
           ],
         ),

@@ -12,11 +12,11 @@ class PdfPickerService {
       );
 
       if (result != null && result.files.isNotEmpty) {
-        pdfPaths = result.paths!.cast<String>();
+        pdfPaths = result.paths.cast<String>();
       }
     } catch (e) {
+      // ignore: avoid_print
       print('PDF picking error: $e');
-      // Handle error (show a snackbar, retry, etc.)
     }
 
     return pdfPaths;

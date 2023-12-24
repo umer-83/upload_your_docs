@@ -7,6 +7,7 @@ class PasswordTextField extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
 }
 
@@ -20,7 +21,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         labelText: 'Password',
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         suffixIcon: IconButton(
           icon: Icon(
             _obscureText ? Icons.visibility_off : Icons.visibility,
