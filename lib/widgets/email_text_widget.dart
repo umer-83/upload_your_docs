@@ -8,7 +8,7 @@ class EmailTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Email',
         filled: true,
         fillColor: Colors.white,
@@ -20,8 +20,6 @@ class EmailTextField extends StatelessWidget {
         if (value == null || value.isEmpty) {
           return 'Please enter your email';
         }
-        // Add a more comprehensive email validation if needed
-        // For a basic check, you can use a regular expression
         if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
           return 'Please enter a valid email address';
         }

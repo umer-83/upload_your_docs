@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.userUid, Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -23,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _textController = TextEditingController();
   final List<String> _imageUrls = [];
-  final List<String> _pdfUrls = [];
   final PdfPickerService _pdfPickerService = PdfPickerService();
   final PdfUploaderService _pdfUploaderService = PdfUploaderService();
   List<String> _selectedPdfUrls = [];
@@ -34,16 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen'),
+        title: const Text('Home Screen'),
         backgroundColor: const Color(0xFF1D2C60),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () async {
               await _auth.signOut();
+              // ignore: use_build_context_synchronously
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
           ),
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             TextField(
               controller: _textController,
-              decoration: InputDecoration(labelText: 'Text'),
+              decoration: const InputDecoration(labelText: 'Text'),
             ),
             const SizedBox(height: 20),
             InkWell(
@@ -68,12 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.blue, // Adjust the color as needed
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.image,
                   size: 36, // Adjust the size as needed
                   color: Colors.white, // Icon color
@@ -85,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 16),
-                  Text('Selected Images:'),
+                  const SizedBox(height: 16),
+                  const Text('Selected Images:'),
                   for (String imageUrl in _imageUrls) Text(imageUrl),
                 ],
               ),
@@ -96,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedPdfUrls = await _pdfPickerService.pickPdfFiles();
                 setState(() {});
               },
-              child: Text('Pick PDF'),
+              child: const Text('Pick PDF'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -104,10 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 final activityProvider =
                     Provider.of<ActivityProvider>(context, listen: false);
 
-                // GlobalKey to reference the dialog
                 GlobalKey<State> key = GlobalKey<State>();
-
-                // Show loading indicator while uploading
                 showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -116,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onWillPop: () async => false,
                       child: SimpleDialog(
                         key: key,
-                        children: [
+                        children: const [
                           Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -140,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   await activityProvider.uploadActivity(newActivity);
 
-                  // Navigate to DocumentListScreen after successful upload
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -148,14 +146,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } catch (error) {
-                  // Handle the error (show a snackbar, log, etc.)
                   print('Error during upload: $error');
                 } finally {
-                  // Close the loading indicator
                   Navigator.of(key.currentContext!).pop();
                 }
               },
-              child: Text('Upload'),
+              child: const Text('Upload'),
             ),
 
             TextButton(
@@ -167,21 +163,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              child: Text('View Uploaded Docs'),
+              child: const Text('View Uploaded Docs'),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _pickAndUploadImages() async {
-    final List<String> selectedImageUrls =
-        await _imagePickerService.pickImages();
-    setState(() {
-      _imageUrls.addAll(selectedImageUrls);
-    });
-
-    await _imageUploaderService.uploadImages(selectedImageUrls);
   }
 }
